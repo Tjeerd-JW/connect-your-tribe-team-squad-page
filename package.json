@@ -5,8 +5,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -21,8 +20,5 @@
   "dependencies": {
     "express": "^5.0.1",
     "liquidjs": "^10.21.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.11"
   }
 }
