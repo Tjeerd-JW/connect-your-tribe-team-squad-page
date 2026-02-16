@@ -12,11 +12,11 @@ const app = express()
 app.use(express.static('public'))
 
 const engine = new Liquid();
-app.engine('liquid', engine.express()); 
+app.engine('liquid', engine.express());
 
 app.set('views', './views')
 
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({ extended: true }))
 
 
 app.get('/', async function (request, response) {
@@ -24,12 +24,12 @@ app.get('/', async function (request, response) {
   // Filter eerst de berichten die je wilt zien, net als bij personen
   // Deze tabel wordt gedeeld door iedereen, dus verzin zelf een handig filter,
   // bijvoorbeeld je teamnaam, je projectnaam, je person ID, de datum van vandaag, etc..
-  const params = {
+  const commentParams = {
     'filter[for]': `Team ${teamName}`,
   }
 
   // Maak hiermee de URL aan, zoals we dat ook in de browser deden
-  const apiURL = 'https://fdnd.directus.app/items/messages?' + new URLSearchParams(params)
+  const apiURL = 'https://fdnd.directus.app/items/messages?' + new URLSearchParams(commentParams)
 
   // Laat eventueel zien wat de filter URL is
   // (Let op: dit is _niet_ de console van je browser, maar van NodeJS, in je terminal)
@@ -41,13 +41,25 @@ app.get('/', async function (request, response) {
   // Lees van de response van die fetch het JSON object in, waar we iets mee kunnen doen
   const messagesResponseJSON = await messagesResponse.json()
 
+
+  const peopleParams = {
+    'fields': '*,squads.*',
+    'filter[squads][squad_id][tribe][name]': 'FDND Jaar 1',
+    'filter[squads][squad_id][cohort]': '2526'
+
+  }
+  const personResponse = await fetch('https://fdnd.directus.app/items/person/?' + new URLSearchParams(peopleParams))
+  const personResponseJSON = await personResponse.json()
+
+
   // Controleer eventueel de data in je console
   // console.log(messagesResponseJSON)
 
   // En render de view met de messages
   response.render('index.liquid', {
     teamName: teamName,
-    messages: messagesResponseJSON.data
+    messages: messagesResponseJSON.data,
+    persons: personResponseJSON.data,
   })
 })
 
@@ -79,6 +91,15 @@ app.post('/', async function (request, response) {
   // Stuur de browser daarna weer naar de homepage
   response.redirect(303, '/')
 })
+
+app.get('/person/:id', async function (request, response) {
+  const personDetailResponse = await fetch('https://fdnd.directus.app/items/person/' + request.params.id)
+  const personDetailResponseJSON = await personDetailResponse.json()
+
+
+  response.render('person.liquid', { person: personDetailResponseJSON.data})
+})
+
 
 
 app.set('port', process.env.PORT || 8000)

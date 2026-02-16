@@ -1,5 +1,13 @@
 <h1>Zet 'm op team {{ teamName }}!</h1>
 
+<ul>
+  {% for person in persons %}
+    <li>
+      {{ person.name }}
+    </li>
+  {% endfor %}
+</ul>
+
 <h2>Huidige berichten</h2>
 
 {% for message in messages %}
