@@ -38,23 +38,20 @@ app.get('/', async function (request, response) {
   // Lees van de response van die fetch het JSON object in, waar we iets mee kunnen doen
   const messagesResponseJSON = await messagesResponse.json()
 
+  // tijdlijn lengte uit de url halen bijv: /?start=2000&end=2001 alleen mensen van 2000-01-01 t/m 2001-12-31
+  // als je niks invuld is het 1971 t/m 2007
+  const startYear = request.query.start ? parseInt(request.query.start) : 1971
+  const endYear = request.query.end ? parseInt(request.query.end) : 2007
+
   const peopleParams = {
     'fields': '*,squads.*',
     'filter[squads][squad_id][tribe][name]': 'FDND Jaar 1',
     'filter[squads][squad_id][cohort]': '2526',
-    // 'filter[birthdate][_gte]': `${startYear}-01-01`,
-    // 'filter[birthdate][_lte]': `${endYear}-12-31`,
     'sort': 'birthdate'
-
   }
   const personResponse = await fetch('https://fdnd.directus.app/items/person/?' + new URLSearchParams(peopleParams))
   const personResponseJSON = await personResponse.json()
   // loop door iedereen heen om ze hun maandindex te kunnen geven
-  const startYear = 1970
-  const endYear = 2007
-  const startMonth = 0;
-  const endMonth = 11
-  const totalMonths = (endYear - startYear) * 12
 
   // iedereen buiten de tijdlijn lekker weggooien
   const filteredData = personResponseJSON.data.filter(person => {
@@ -63,35 +60,72 @@ app.get('/', async function (request, response) {
     return personYear >= startYear && personYear <= endYear && personYear !== 1970
   })
 
+  // hier mee check ik of er meerdere mensen in 1 maand zijn geboren
   const monthTracker = {}
 
   filteredData.forEach(person => {
     let datePerson = new Date(person.birthdate)
     let personYear = datePerson.getFullYear()
     let personMonth = datePerson.getMonth()
-    let personDay = datePerson.getDate()
-    console.log(personYear, personMonth, personDay)
     let monthKey = `${personYear}-${personMonth}`
 
     if (!(monthKey in monthTracker)) {
-      monthTracker[monthKey] = 1;
-      person.stack_index = 0;
+      monthTracker[monthKey] = 2;
+      person.stack_index = 1;
     } else {
       person.stack_index = monthTracker[monthKey];
       monthTracker[monthKey]++
     }
 
-    person.maand_index = (personYear - startYear) * 12 + personMonth
-    // person.left = (100 - 25 * person.stack_index) * person.maand_index + 'px';
+    person.maand_index = (personYear - startYear) * 12 + personMonth + 1
     person.left = 100 * person.maand_index - 100 * person.stack_index + 'px';
-    console.log(person.maand_index)
   });
+
+
+  const monthNames = [
+    "januari",
+    "februari",
+    "maart",
+    "april",
+    "mei",
+    "juni",
+    "juli",
+    "augustus",
+    "september",
+    "oktober",
+    "november",
+    "december"
+  ];
+
+  const totalMonths = (endYear - startYear) * 12
+  // hier komen de maanden voor de tijdljn te staan
+  const months = []
+  const years = []
+  for (let year = startYear; year <= endYear; year++) {
+    years.push({
+      year: year,
+      year_index: year - startYear + 1
+    })
+    for (let month = 0; month < 12; month++) {
+      months.push({
+        year: year,
+        month: month + 1,
+        month_name: monthNames[month],
+        month_index: (year - startYear) * 12 + month
+      })
+    }
+  }
+
+
+
 
   response.render('index.liquid', {
     teamName: teamName,
     messages: messagesResponseJSON.data,
     persons: filteredData,
-    totalMonths: totalMonths
+    totalMonths: totalMonths,
+    months: months,
+    years: years
   })
 })
 

@@ -1,5 +1,8 @@
 {% render 'partials/head.liquid', title: 'Squad page' %}
 
 <h1>{{ person.name }}</h1>
+<p>
 {{ person | json | escape }}
+
+</p>
 {% render 'partials/foot.liquid', squads: squads %}

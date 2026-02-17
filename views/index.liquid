@@ -10,29 +10,66 @@
     <li class="btn-filter"><a href="#">Voorbeeld C</a></li>
     <li class="btn-filter"><a href="#">Voorbeeld D</a></li>
   </ul>
-  <section></section>
-  <ol class="timeline" style="--total-months:{{  totalMonths  }}">
-    {% for person in persons %}
-      <li style="--favo-color:{{ person.fav_color }}; --person-left:{{ person.left }}; --stack-index:{{  person.stack_index }}; ">
-        <img
-          class="person-img"
-          loading="lazy"
-          {% if person.mugshot %}
-            src="{{'https://fdnd.directus.app/assets/' | append:  person.mugshot | append:'?width=500' }}"
-          {% else %}
-            src="{{ person.avatar }}"
-          {% endif %}
-          alt=" {{ person.name }}"
+  <section class="timeline" style="--total-months:{{  totalMonths  }}">
+    <ol class="people-line">
+      {% for person in persons %}
+        <li
+          class="person-list-item"
+          style="
+            --favo-color:{{ person.fav_color }};
+            --month-index:{{ person.maand_index }};
+            --stack-index:{{  person.stack_index }};
+          "
         >
+          <a href="/person/{{ person.id }}">
+            <img
+              class="person-img"
+              loading="lazy"
+              {% if person.mugshot %}
+                src="{{'https://fdnd.directus.app/assets/' | append:  person.mugshot | append:'?width=500' }}"
+              {% else %}
+                src="{{ person.avatar }}"
+              {% endif %}
+              alt=" {{ person.name }}"
+            >
+            {{ person.name }}
+          </a>
+          <p>
+            {{ person.birthdate | date: '%d' }}
+          </p>
+        </li>
+      {% endfor %}
+    </ol>
+    <ol class="date-line">
+      {% for month in months %}
+        <li class="date-list-item" style="--month-index:{{ month.month_index }};">
+          <p>
+            {{ month.month_name }}
+          </p>
+        </li>
+      {% endfor %}
+    </ol>
+    <ol class="date-line years">
+      {% for year in years %}
+        <li style="--year-index:{{ year.year_index }}" class="date-list-item item-year">
+          <p>
+            {{ year.year }}
+          </p>
+        </li>
+      {% endfor %}
+    </ol>
+  </section>
 
-        {{ person.name }}
-        {{ person.birthdate }}
-        {{ person.stack_index }}
-        {% comment %} {{ person.maand_index }} {% endcomment %}
-      </li>
+  {% comment %}
+    {% for month in months %}
+     <p>
+
+     {{ date: month.month }}
+       {{ month.month }}
+       {{ month.year }}
+     </p>
     {% endfor %}
-  </ol>
-
+  {% endcomment %}
   <h2>Huidige berichten</h2>
 
   {% for message in messages %}
