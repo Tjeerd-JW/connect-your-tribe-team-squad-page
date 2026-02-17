@@ -1,12 +1,39 @@
-*{
+* {
     padding: 0;
     margin: 0;
 }
+
 /* filter knop */
-.filteren{
+.filteren {
     display: none;
 }
 
-.not-hidden{
+.not-hidden {
     display: block;
+
+}
+
+.timeline {
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    height: 550px;
+    /* min-width: calc(100px * var(--total-months)); */
+
+    li {
+        min-width: 100px;
+        width: 100px;
+        list-style: none;
+        left: var(--person-left);
+        bottom: calc(175px * var(--stack-index));
+        position: relative;
+        height: 175px;
+        align-self: end;
+
+        img {
+            aspect-ratio: 1 / 1;
+            width: 100px;
+            object-fit: cover;
+        }
+    }
 }

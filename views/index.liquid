@@ -10,16 +10,28 @@
     <li class="btn-filter"><a href="#">Voorbeeld C</a></li>
     <li class="btn-filter"><a href="#">Voorbeeld D</a></li>
   </ul>
-  <section>
-
-  </section>
-  <ul>
+  <section></section>
+  <ol class="timeline" style="--total-months:{{  totalMonths  }}">
     {% for person in persons %}
-      <li>
+      <li style="--favo-color:{{ person.fav_color }}; --person-left:{{ person.left }}; --stack-index:{{  person.stack_index }}; ">
+        <img
+          class="person-img"
+          loading="lazy"
+          {% if person.mugshot %}
+            src="{{'https://fdnd.directus.app/assets/' | append:  person.mugshot | append:'?width=500' }}"
+          {% else %}
+            src="{{ person.avatar }}"
+          {% endif %}
+          alt=" {{ person.name }}"
+        >
+
         {{ person.name }}
+        {{ person.birthdate }}
+        {{ person.stack_index }}
+        {% comment %} {{ person.maand_index }} {% endcomment %}
       </li>
     {% endfor %}
-  </ul>
+  </ol>
 
   <h2>Huidige berichten</h2>
 
