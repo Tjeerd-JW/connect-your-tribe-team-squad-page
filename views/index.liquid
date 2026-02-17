@@ -1,30 +1,38 @@
-<h1>Zet 'm op team {{ teamName }}!</h1>
+{% render 'partials/head.liquid', title: 'Squad page' %}
 
-<ul>
-  {% for person in persons %}
-    <li>
-      {{ person.name }}
-    </li>
+<main>
+  <h1>Squad tijdlijn</h1>
+  <section>
+
+  </section>
+  <ul>
+    {% for person in persons %}
+      <li>
+        {{ person.name }}
+      </li>
+    {% endfor %}
+  </ul>
+
+  <h2>Huidige berichten</h2>
+
+  {% for message in messages %}
+    <p>{{ message.from }}: {{ message.text }} @{{ message.created | date: '%d-%m-%Y %H:%M' }}</p>
+  {% else %}
+    <p>Er zijn nog geen berichten voor dit team.</p>
   {% endfor %}
-</ul>
 
-<h2>Huidige berichten</h2>
+  <h2>Voeg een bericht toe</h2>
+  <form method="post" action="/">
+    <label>
+      Naam:
+      <input type="text" name="from" required>
+    </label>
+    <label>
+      Bericht:
+      <textarea name="text" required></textarea>
+    </label>
+    <button type="submit">Verstuur</button>
+  </form>
+</main>
 
-{% for message in messages %}
-  <p>{{ message.from }}: {{ message.text }} @{{ message.created | date: '%d-%m-%Y %H:%M' }}</p>
-{% else %}
-  <p>Er zijn nog geen berichten voor dit team.</p>
-{% endfor %}
-
-<h2>Voeg een bericht toe</h2>
-<form method="post" action="/">
-  <label>
-    Naam:
-    <input type="text" name="from" required>
-  </label>
-  <label>
-    Bericht:
-    <textarea name="text" required></textarea>
-  </label>
-  <button type="submit">Verstuur</button>
-</form>
+{% render 'partials/foot.liquid', squads: squads %}
