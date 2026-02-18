@@ -47,7 +47,9 @@ app.get('/', async function (request, response) {
     'fields': '*,squads.*',
     'filter[squads][squad_id][tribe][name]': 'FDND Jaar 1',
     'filter[squads][squad_id][cohort]': '2526',
-    'sort': 'birthdate'
+    'sort': 'birthdate',
+    'filter[birthdate][_gte]': `${startYear}-01-01`,
+    'filter[birthdate][_lte]': `${endYear}-12-31`,
   }
   const personResponse = await fetch('https://fdnd.directus.app/items/person/?' + new URLSearchParams(peopleParams))
   const personResponseJSON = await personResponse.json()
@@ -71,16 +73,15 @@ app.get('/', async function (request, response) {
 
     if (!(monthKey in monthTracker)) {
       monthTracker[monthKey] = 2;
-      person.stack_index = 1;
+      person.stack_index = 3;
     } else {
       person.stack_index = monthTracker[monthKey];
-      monthTracker[monthKey]++
+      monthTracker[monthKey]--
     }
 
     person.maand_index = (personYear - startYear) * 12 + personMonth + 1
     person.left = 100 * person.maand_index - 100 * person.stack_index + 'px';
   });
-
 
   const monthNames = [
     "januari",
@@ -115,9 +116,6 @@ app.get('/', async function (request, response) {
       })
     }
   }
-
-
-
 
   response.render('index.liquid', {
     teamName: teamName,
