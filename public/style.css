@@ -147,20 +147,6 @@ h1 {
     }
 }
 
-.mobile-popover {
-    display: none;
-
-    @media screen and (orientation:portrait) {
-        display: block;
-        background-color: #050542;
-        height: 100dvh;
-        width: 100dvw;
-        top: 0;
-        position: absolute;
-
-    }
-}
-
 @keyframes timeline-animation {
     from {
         opacity: 0;
