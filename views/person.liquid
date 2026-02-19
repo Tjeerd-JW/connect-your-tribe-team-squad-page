@@ -1,9 +1,92 @@
 {% render 'partials/head.liquid', title: 'Squad page' %}
+{% assign spotifyURL = person.fav_spotify_track | split: '/' %}
 
 <h1>{{ person.name }}</h1>
-<p>
-  {{ person | json | escape }}
-</p>
+
+<section class="person-details">
+  <a href="/">Back</a>
+  <figure class="person-left">
+    <img
+      class="person-img"
+      {% if person.mugshot %}
+        src="{{'https://fdnd.directus.app/assets/' | append:  person.mugshot | append:'?width=700' }}"
+      {% else %}
+        src="{{ person.avatar }}"
+      {% endif %}
+      alt=" {{ person.name }}"
+    >
+    <p>{{ person.nickname | escape }}</p>
+    <p>{{ readableBirthdate }}</p>
+  </figure>
+
+  <div class="person-right">
+    <h2>over mij</h2>
+    <article>
+      <p>{{ person.bio | escape }}</p>
+    </article>
+    <article class="person-story">
+      <h3>Backstory</h3>
+      <p>
+        Er was eens een lid van team
+        <span>{{ person.team }}</span>, die bekend stond om een heel specifieke stijl. In de straten van
+        <span>{{ person.residency | escape | default: 'oost Berlijn' }} </span>
+        kon je deze persoon direct herkennen, niet alleen aan de schoenmaat
+        <span>{{ person.shoe_size | escape | default: '32' }}</span>, but vooral aan de unieke uitstraling die de kleur
+        <span>{{ person.fav_color | escape | default: 'poep bruin' }} </span>
+        uitstraalde.
+
+        De dagelijkse routine was even voorspelbaar als bijzonder. De ochtend begon steevast met een portie
+        <span>{{ person.fav_fruit | escape | default: 'kaki fruit' }} </span>
+        en een warme kom <span>{{ person.fav_soup | escape | default: 'pompoen' }} </span> soep. Tussen de bedrijven
+        door werd er tijd gemaakt voor de grote passie:
+        <span>{{ person.fav_hobby | escape | default: 'geen data invullen' }} </span> . Of het nu ging om het spelen van
+        <span>{{ person.fav_game | escape | default: 'Solitaire' }} </span> of het kijken naar
+        <span>{{ person.fav_movie | escape | default: 'Megalopolis' }} </span>
+        , de sfeer was altijd precies goed, vaak samengevat door de emoji "
+        <span>{{ person.fav_emoji | escape | default: 'B)' }} </span>".
+
+        In de digitale wereld liet deze persoon een herkenbaar spoor achter:
+
+        De Stijl: Alles werd ontworpen met een <span>{{ person.fav_tag | default: '<br>' | escape }} </span>
+        en een opvallende afronding van
+        <span>{{ person.fav_border_radius | escape | default: '0' }} </span>
+        px.
+
+        De Code: In de architectuur van het leven was elk detail
+        <span>{{ person.fav_property | escape | default: 'keyframes' }} </span>
+        en elke actie
+        <span>{{ person.fav_attribute | escape | default: 'href' }} </span>.
+
+        De Vibe: Met de energie van een <span>{{ person.fav_animal | escape | default: 'olifant' }}</span>/<span>
+          {{- person.vibe_emoji | escape | default: '' }}
+        </span>
+        werd er gewerkt aan de ultieme
+        <span>{{ person.fav_feature | escape | default: 'terroristiche aanval' }}</span>.
+
+        Zelfs in de heerlijke dagen van de <span>{{ person.fav_season | escape | default: 'winter' }} </span> bleef de
+        focus scherp. Wie meer wilde weten, kon altijd een kijkje nemen op de persoonlijke kaart:
+        <span>{{ person.profilecard | escape }} </span>
+      </p>
+    </article>
+  </div>
+  <article class="person-song">
+    <p>
+      Je moet echt naar mijn favoriete nummer luisteren: {{ person.fav_song | default: 'Songus Amongus' }} het is echt
+      een banger!!
+    </p>
+    <iframe
+      data-testid="embed-iframe"
+      style="border-radius:12px"
+      src="https://open.spotify.com/embed/track/{{ spotifyURL[4] |   default: '0NjEIcUU7PqfFCKVElxKn1' }}?utm_source=generator"
+      width="100%"
+      height="352"
+      frameBorder="0"
+      allowfullscreen=""
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy"
+    ></iframe>
+  </article>
+</section>
 
 <section class="person-comments">
   <form method="post" action="/person/ {{ person.id }}">
@@ -22,8 +105,8 @@
     {% for comment in comments %}
       <li>
         <h2>{{ comment.from }}</h2>
-        <p class="comment-date">{{ comment.created |  date: "%d %b %Y" }}</p>
-        <p class="comment-content">{{ comment.text |  escape}}</p>
+        <p class="comment-date">{{ comment.created | date: '%d %b %Y' }}</p>
+        <p class="comment-content">{{ comment.text | escape }}</p>
       </li>
     {% endfor %}
   </ul>

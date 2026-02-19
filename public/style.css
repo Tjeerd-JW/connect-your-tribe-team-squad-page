@@ -223,6 +223,62 @@ h1 {
     }
 }
 
+.person-details {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: clamp(320px, 90%, 1440px);
+    margin: auto;
+
+    @media (min-width: 660px) {
+        grid-template-columns: 50% 50%;
+        gap: .5rem;
+    }
+
+    article {
+        p {
+            font-size: 18px;
+        }
+    }
+
+    .person-left {
+        @media (min-width: 660px) {
+            grid-column: 1;
+        }
+
+        img {
+            width: clamp(300px, 100%, 500px);
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            display: flex;
+            margin: 0 auto;
+        }
+
+        p {
+            width: clamp(300px, 100%, 500px);
+            display: flex;
+            margin: 0 auto;
+        }
+    }
+
+    .person-right {
+        @media (min-width: 660px) {
+            grid-column: 2;
+        }
+
+        .person-story {
+            p {
+                span {
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+    .person-song{
+        grid-column: 1 / -1;
+    }
+}
+
+
 @keyframes timeline-animation {
     from {
         opacity: 0;

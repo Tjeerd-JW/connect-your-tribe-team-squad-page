@@ -42,8 +42,8 @@ app.get('/', async function (request, response) {
 
   // tijdlijn lengte uit de url halen bijv: /?start=2000&end=2001 alleen mensen van 2000-01-01 t/m 2001-12-31
   // als je niks invuld is het 1971 t/m 2007
-  const startYear = request.query.start ? parseInt(request.query.start) : 1971
-  const endYear = request.query.end ? parseInt(request.query.end) : 2007
+  const startYear = request.query.start ? parseInt(request.query.start) : 1998
+  const endYear = request.query.end ? parseInt(request.query.end) : 2008
   const season = request.query.season
   const hobby = request.query.hobby
   const vibes = request.query.vibes
