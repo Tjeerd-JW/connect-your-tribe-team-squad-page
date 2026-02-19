@@ -3,13 +3,54 @@
 <main>
   <h1>Squad tijdlijn</h1>
 
-  <button>Filters</button>
-  <ul class="filteren">
-    <li class="btn-filter"><a href="#">Voorbeeld A</a></li>
-    <li class="btn-filter"><a href="#">Voorbeeld B</a></li>
-    <li class="btn-filter"><a href="#">Voorbeeld C</a></li>
-    <li class="btn-filter"><a href="#">Voorbeeld D</a></li>
-  </ul>
+   <form class="filters">
+
+    {% comment %} SEIZOEN {% endcomment %}
+    <label for="select-season"></label>
+    <select name="season" id="select-season">
+      <option value="">Kies een seizoen</option>
+      <option value="winter" {% if activeSeason == 'winter' %}selected{% endif %}>Winter</option>
+      <option value="lente" {% if activeSeason == 'lente' %}selected{% endif %}>Lente</option>
+      <option value="zomer" {% if activeSeason == 'zomer' %}selected{% endif %}>Zomer</option>
+      <option value="herfst" {% if activeSeason == 'herfst' %}selected{% endif %}>Herfst</option>
+    </select>
+
+    {% comment %} HOBBY {% endcomment %}
+    <label for="select-hobby"></label>
+    <select name="hobby" id="select-hobby">
+      <option value="">Kies een hobby</option>
+      <option value="chillen" {% if activeHobby == 'chillen' %}selected{% endif %}>Chillen</option>
+      <option value="coden" {% if activeHobby == 'coden' %}selected{% endif %}>Coden</option>
+      <option value="dammen" {% if activeHobby == 'dammen' %}selected{% endif %}>Dammen</option>
+      <option value="festivals" {% if activeHobby == 'festivals' %}selected{% endif %}>Festivals</option>
+      <option value="fitness" {% if activeHobby == 'fitness' %}selected{% endif %}>Fitness</option>
+      <option value="gamen" {% if activeHobby == 'gamen' %}selected{% endif %}>Gamen</option>
+      <option value="haken" {% if activeHobby == 'haken' %}selected{% endif %}>Haken</option>
+      <option value="lezen" {% if activeHobby == 'lezen' %}selected{% endif %}>Lezen</option>
+      <option value="muziek" {% if activeHobby == 'muziek' %}selected{% endif %}>Muziek</option>
+      <option value="schaken" {% if activeHobby == 'schaken' %}selected{% endif %}>Schaken</option>
+      <option value="sporten" {% if activeHobby == 'sporten' %}selected{% endif %}>Sporten</option>
+      <option value="uitgaan" {% if activeHobby == 'uitgaan' %}selected{% endif %}>Uitgaan</option>
+    </select>
+
+    {% comment %} VIBE {% endcomment %}
+    <label for="select-vibe"></label>
+    
+    <select name="vibes" id="select-vibe">
+      <option value="">Kies een vibe</option>
+      <option value="🧌" {% if activeVibes == '🧌' %}selected{% endif %}>🧌</option>
+      <option value="🍗" {% if activeVibes == '🍗' %}selected{% endif %}>🍗</option>
+      <option value="❤️" {% if activeVibes == '❤️' %}selected{% endif %}>❤️</option>
+      <option value="🫡" {% if activeVibes == '🫡' %}selected{% endif %}>🫡</option>
+      <option value="🤑" {% if activeVibes == '🤑' %}selected{% endif %}>🤑</option>
+      <option value="👀" {% if activeVibes == '👀' %}selected{% endif %}>👀</option>
+      <option value="🦧" {% if activeVibes == '🦧' %}selected{% endif %}>🦧</option>
+      <option value="🪤" {% if activeVibes == '🪤' %}selected{% endif %}>🪤</option>
+      <option value="🫧" {% if activeVibes == '🫧' %}selected{% endif %}>🫧</option>
+      <option value="💅" {% if activeVibes == '💅' %}selected{% endif %}>💅</option>
+    </select>
+  </form>
+
   <section class="timeline" style="--total-months:{{  totalMonths  }}">
     <ol class="people-line">
       {% for person in persons %}

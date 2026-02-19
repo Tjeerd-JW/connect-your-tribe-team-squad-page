@@ -3,15 +3,20 @@
     margin: 0;
 }
 
-/* filter knop */
-.filteren {
-    display: none;
+/* filter  */
+form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    position: sticky;
+    top: 5%;
+
+}
+select{
+    padding: 5px 5px 5px 5px;
 }
 
-.not-hidden {
-    display: block;
-
-}
 
 h1 {
     text-align: center;

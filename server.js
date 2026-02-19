@@ -18,6 +18,8 @@ app.use(express.urlencoded({ extended: true }))
 
 app.get('/', async function (request, response) {
 
+  console.log(request.query)
+
   // Filter eerst de berichten die je wilt zien, net als bij personen
   // Deze tabel wordt gedeeld door iedereen, dus verzin zelf een handig filter,
   // bijvoorbeeld je teamnaam, je projectnaam, je person ID, de datum van vandaag, etc..
@@ -42,13 +44,35 @@ app.get('/', async function (request, response) {
   // als je niks invuld is het 1971 t/m 2007
   const startYear = request.query.start ? parseInt(request.query.start) : 1971
   const endYear = request.query.end ? parseInt(request.query.end) : 2007
+  const season = request.query.season
+  const hobby = request.query.hobby
+  const vibes = request.query.vibes
+
+  console.log({ hobby })
 
   const peopleParams = {
     'fields': '*,squads.*',
     'filter[squads][squad_id][tribe][name]': 'FDND Jaar 1',
     'filter[squads][squad_id][cohort]': '2526',
-    'sort': 'birthdate'
+    'sort': 'birthdate',
+    'filter[birthdate][_gte]': `${startYear}-01-01`,
+    'filter[birthdate][_lte]': `${endYear}-12-31`,
   }
+  console.log(vibes)
+
+  if (season) {
+    peopleParams['filter[fav_season][_icontains]'] = season
+  }
+  if (hobby) {
+    peopleParams['filter[fav_hobby][_icontains]'] = hobby
+  }
+  if (vibes) {
+    peopleParams['filter[vibe_emoji][_icontains]'] = vibes
+  }
+
+
+
+
   const personResponse = await fetch('https://fdnd.directus.app/items/person/?' + new URLSearchParams(peopleParams))
   const personResponseJSON = await personResponse.json()
   // loop door iedereen heen om ze hun maandindex te kunnen geven
@@ -125,7 +149,10 @@ app.get('/', async function (request, response) {
     persons: filteredData,
     totalMonths: totalMonths,
     months: months,
-    years: years
+    years: years,
+    activeSeason: season,
+    activeHobby: hobby,
+    activeVibes: vibes
   })
 })
 
