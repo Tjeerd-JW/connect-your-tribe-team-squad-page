@@ -16,7 +16,7 @@ Iedereen word op de tijdlijn geplaats afhankelijk van hun geboortedatum wanneer 
 
 ### Filters
 
-Met de filters op de tijdlijn kan je hem inkorten of filteren op seizoen, hobby of vibe!!
+Met de filters op de tijdlijn kan je hem inkorten of filteren op seizoen, hobby of vibe!!. Ook kan je er voor kiezen om te filteren op een decennia, dan zie je de eerste persoon van bijvoorbeeld 1990.
 
 ### person details
 
