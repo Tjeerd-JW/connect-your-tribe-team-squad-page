@@ -3,6 +3,7 @@
 <main>
   <h1>Squad tijdlijn</h1>
 
+
    <form class="filters">
 
     {% comment %} SEIZOEN {% endcomment %}
@@ -76,7 +77,7 @@
             {{ person.name }}
           </a>
           <p>
-            {{ person.birthdate | date: '%d' }}
+            {{ person.birthdate | date: '%d %B' }}
           </p>
         </li>
       {% endfor %}
@@ -101,36 +102,9 @@
     </ol>
   </section>
 
-  {% comment %}
-    {% for month in months %}
-     <p>
-
-     {{ date: month.month }}
-       {{ month.month }}
-       {{ month.year }}
-     </p>
-    {% endfor %}
-  {% endcomment %}
-  <h2>Huidige berichten</h2>
-
-  {% for message in messages %}
-    <p>{{ message.from }}: {{ message.text }} @{{ message.created | date: '%d-%m-%Y %H:%M' }}</p>
-  {% else %}
-    <p>Er zijn nog geen berichten voor dit team.</p>
-  {% endfor %}
-
-  <h2>Voeg een bericht toe</h2>
-  <form method="post" action="/">
-    <label>
-      Naam:
-      <input type="text" name="from" required>
-    </label>
-    <label>
-      Bericht:
-      <textarea name="text" required></textarea>
-    </label>
-    <button type="submit">Verstuur</button>
-  </form>
+  <div class="mobile-popover">
+    <h1>Draai je telefoon om het beter te zien</h1>
+  </div>
 </main>
 
 {% render 'partials/foot.liquid', squads: squads %}

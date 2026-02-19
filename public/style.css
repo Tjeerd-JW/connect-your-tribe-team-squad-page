@@ -1,6 +1,16 @@
 * {
     padding: 0;
     margin: 0;
+    color: #66E5Bf;
+    /* font-family: 'Times New Roman', Times, serif; */
+}
+
+
+body {
+    height: 100dvh;
+    background-color: #000;
+    background-image: url(https://images.wallpaperscraft.com/image/single/starry_sky_stars_space_143776_800x1420.jpg);
+
 }
 
 /* filter  */
@@ -25,8 +35,12 @@ h1 {
 .timeline {
     display: grid;
     overflow-x: scroll;
-    height: 630px;
+    overflow-y: hidden;
+    height: 800px;
     grid-template-rows: 550px;
+    gap: 0.75rem;
+    scrollbar-color: #66E5BF #000;
+    scrollbar-width: thin;
 
     ol {
         display: grid;
@@ -35,15 +49,15 @@ h1 {
 
         li {
             grid-column: var(--month-index);
-
         }
     }
 
     .people-line {
         grid-template-rows: 175px;
+        border-bottom: #66E5BF solid 2px;
+        background-image: url(https://images.wallpaperscraft.com/image/single/starry_sky_stars_space_143776_800x1420.jpg);
 
         .person-list-item {
-
             grid-row: var(--stack-index);
             list-style: none;
             position: relative;
@@ -51,20 +65,33 @@ h1 {
             align-self: end;
             min-width: 100px;
             width: 100px;
+            max-width: 100px;
+            view-timeline-name: --person-reveal;
+            animation: timeline-animation 1ms linear both;
+            animation-timeline: --person-reveal;
+            view-timeline-axis: x;
+            view-timeline-inset: 70% 100px;
+            transition: ease-in-out .3s;
+
+            &:hover {
+                scale: 1.1;
+            }
 
             a {
                 text-decoration: none;
                 color: unset;
+                transition: ease-in-out .3s;
 
                 img {
                     aspect-ratio: 1 / 1;
                     width: 100px;
                     object-fit: cover;
+                    transition: ease-in-out .3s;
+                    border: ridge 2px var(--favo-color);
+
                 }
             }
-
         }
-
     }
 
     .date-line {
@@ -73,6 +100,7 @@ h1 {
         flex-direction: row;
         width: 100%;
         height: 50px;
+        background-image: url(https://images.wallpaperscraft.com/image/single/starry_sky_stars_space_143776_800x1420.jpg);
 
         .date-list-item {
             list-style: none;
@@ -80,30 +108,67 @@ h1 {
             position: relative;
             text-align: center;
 
+            &::before {
+                content: '-';
+                position: absolute;
+                rotate: 90deg;
+                bottom: 2.6rem;
+                font-size: 3rem;
+                color: #66E5Bf;
+            }
+
             p {
                 rotate: 30deg;
 
             }
         }
-
     }
 
     .date-line.years {
-
         display: grid;
         grid-auto-columns: 1296px;
-gap: 0;
+        gap: 0;
+
         .item-year {
             grid-column: var(--year-index);
             text-align: left;
             font-size: 5rem;
+
             /* bottom: 100px; */
+            &::before {
+                content: '';
+            }
 
             p {
                 rotate: 20deg;
-
+                width: fit-content;
             }
         }
     }
+}
 
+.mobile-popover {
+    display: none;
+
+    @media screen and (orientation:portrait) {
+        display: block;
+        background-color: #050542;
+        height: 100dvh;
+        width: 100dvw;
+        top: 0;
+        position: absolute;
+
+    }
+}
+
+@keyframes timeline-animation {
+    from {
+        opacity: 0;
+        transform: scale(0) rotate(180deg);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(360deg);
+    }
 }
