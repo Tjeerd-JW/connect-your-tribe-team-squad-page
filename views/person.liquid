@@ -2,7 +2,31 @@
 
 <h1>{{ person.name }}</h1>
 <p>
-{{ person | json | escape }}
-
+  {{ person | json | escape }}
 </p>
+
+<section class="person-comments">
+  <form method="post" action="/person/ {{ person.id }}">
+    <label>
+      Naam:
+      <input type="text" name="from" required>
+    </label>
+    <label class="comment-box">
+      Bericht:
+      <textarea name="text" required></textarea>
+    </label>
+    <button type="submit">Verstuur</button>
+  </form>
+
+  <ul>
+    {% for comment in comments %}
+      <li>
+        <h2>{{ comment.from }}</h2>
+        <p class="comment-date">{{ comment.created |  date: "%d %b %Y" }}</p>
+        <p class="comment-content">{{ comment.text |  escape}}</p>
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+
 {% render 'partials/foot.liquid', squads: squads %}

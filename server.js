@@ -184,10 +184,40 @@ app.post('/', async function (request, response) {
 app.get('/person/:id', async function (request, response) {
   const personDetailResponse = await fetch('https://fdnd.directus.app/items/person/' + request.params.id)
   const personDetailResponseJSON = await personDetailResponse.json()
+  const commentParams = {
+    'filter[for]': `Team ${teamName} ` + request.params.id,
+  }
 
 
-  response.render('person.liquid', { person: personDetailResponseJSON.data })
+  const apiURL = 'https://fdnd.directus.app/items/messages?' + new URLSearchParams(commentParams)
+  const messagesResponse = await fetch(apiURL)
+
+  const messagesResponseJSON = await messagesResponse.json()
+console.log(messagesResponseJSON)
+  response.render('person.liquid', {
+    person: personDetailResponseJSON.data,
+    comments: messagesResponseJSON.data,
+
+  })
 })
+
+app.post('/person/:id', async function (request, response) {
+  await fetch('https://fdnd.directus.app/items/messages', {
+
+    method: 'POST',
+    body: JSON.stringify({
+      for: `Team ${teamName}` + request.params.id,
+      from: request.body.from,
+      text: request.body.text
+    }),
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+
+    }
+  });
+  response.redirect(303, '/person/' + request.params.id)
+})
+
 
 app.set('port', process.env.PORT || 8000)
 

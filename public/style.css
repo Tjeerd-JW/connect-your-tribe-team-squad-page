@@ -14,7 +14,7 @@ body {
 }
 
 /* filter  */
-form{
+form {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -23,7 +23,8 @@ form{
     top: 5%;
 
 }
-select{
+
+select {
     padding: 5px 5px 5px 5px;
 }
 
@@ -142,6 +143,81 @@ h1 {
             p {
                 rotate: 20deg;
                 width: fit-content;
+            }
+        }
+    }
+}
+
+.person-comments {
+    width: clamp(320px, 100%, 1440px);
+    margin: auto;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        background-color: #050542;
+        width: clamp(320px, 100%, 600px);
+        margin: 2rem auto;
+        padding: .5rem;
+        border-radius: 50px;
+
+        label {
+            color: #66E5Bf;
+            display: flex;
+            flex-direction: column;
+
+            input {
+                color: #000;
+            }
+
+            textarea {
+                color: #000;
+                margin: auto;
+                width: clamp(300px, 100%, 400px);
+                height: 150px;
+            }
+        }
+
+        .comment-box {
+            width: 100%;
+            text-align: center;
+        }
+
+        button {
+            color: #66E5Bf;
+            background-color: #050542;
+            border: 2px solid #66E5Bf;
+            padding: .3rem;
+            border-radius: 50px;
+            width: 100px;
+            transition: ease-in-out .2s;
+
+            &:hover {
+                color: #050542;
+                background-color: #66E5Bf;
+                cursor: pointer;
+            }
+        }
+    }
+
+    ul {
+        display: flex;
+        flex-direction: column-reverse;
+        width: clamp(320px, 100%, 750px);
+        margin: auto;
+        gap: 2.5rem;
+
+        li {
+            width: clamp(300px, 100%, 730px);
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            margin: auto;
+            border-left: solid 1px;
+            padding-left: .5rem;
+
+            .comment-content {
+                margin: .25rem 0;
             }
         }
     }
