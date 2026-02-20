@@ -47,6 +47,7 @@ app.get('/', async function (request, response) {
   const season = request.query.season
   const hobby = request.query.hobby
   const vibes = request.query.vibes
+  const year = request.query.year
 
   console.log({ hobby })
 
@@ -60,6 +61,18 @@ app.get('/', async function (request, response) {
   }
   console.log(vibes)
 
+  if (year) {
+    let startYear, endYear;
+    switch (year) {
+      case '1970': startYear = 1970; endYear = 1979; break;
+      case '1980': startYear = 1980; endYear = 1989; break;
+      case '1990': startYear = 1990; endYear = 1999; break;
+      case '2000': startYear = 2000; endYear = 2009; break;
+    }
+    peopleParams['filter[birthdate][_gte]'] = `${startYear}-01-01`;
+    peopleParams['filter[birthdate][_lte]'] = `${endYear}-12-31`;
+  }
+
   if (season) {
     peopleParams['filter[fav_season][_icontains]'] = season
   }
@@ -69,9 +82,6 @@ app.get('/', async function (request, response) {
   if (vibes) {
     peopleParams['filter[vibe_emoji][_icontains]'] = vibes
   }
-
-
-
 
   const personResponse = await fetch('https://fdnd.directus.app/items/person/?' + new URLSearchParams(peopleParams))
   const personResponseJSON = await personResponse.json()
@@ -148,7 +158,8 @@ app.get('/', async function (request, response) {
     years: years,
     activeSeason: season,
     activeHobby: hobby,
-    activeVibes: vibes
+    activeVibes: vibes,
+    activeYear: year
   })
 })
 
