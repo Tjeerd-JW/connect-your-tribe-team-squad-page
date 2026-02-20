@@ -14,11 +14,9 @@ body {
 }
 
 /* filter  */
-<<<<<<< Updated upstream
-form {
-=======
+
+
 .filters{
->>>>>>> Stashed changes
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
@@ -26,6 +24,30 @@ form {
     position: relative;
     top: 20px;
     right: 4em;
+}
+
+.form-date{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 20px;
+    position: relative;
+    top: 80px;
+    left: 2em;
+    padding: 5px 5px 5px 5px;
+}
+.select-year{
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #fff;
+    border-radius: 20px;
+    font-family: monospace;
+    transition: 1s;
+
+    &:hover{
+        background-color: #66E5Bf;
+    }
+
 }
 #select-season,
 #select-hobby,

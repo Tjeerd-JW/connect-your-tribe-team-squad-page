@@ -47,9 +47,6 @@ app.get('/', async function (request, response) {
   const season = request.query.season
   const hobby = request.query.hobby
   const vibes = request.query.vibes
-  const year = request.query.year
-
-  console.log({ hobby })
 
   const peopleParams = {
     'fields': '*,squads.*',
@@ -59,6 +56,10 @@ app.get('/', async function (request, response) {
     'filter[birthdate][_gte]': `${startYear}-01-01`,
     'filter[birthdate][_lte]': `${endYear}-12-31`,
   }
+  const year = request.query.year
+
+  console.log({ hobby })
+
   console.log(vibes)
 
   if (year) {
@@ -69,8 +70,8 @@ app.get('/', async function (request, response) {
       case '1990': startYear = 1990; endYear = 1999; break;
       case '2000': startYear = 2000; endYear = 2009; break;
     }
-    peopleParams['filter[birthdate][_gte]'] = `${startYear}-01-01`;
-    peopleParams['filter[birthdate][_lte]'] = `${endYear}-12-31`;
+    // peopleParams['filter[birthdate][_gte]'] = `${startYear}-01-01`;
+    // peopleParams['filter[birthdate][_lte]'] = `${endYear}-12-31`;
   }
 
   if (season) {
@@ -204,7 +205,7 @@ app.get('/person/:id', async function (request, response) {
   const messagesResponse = await fetch(apiURL)
 
   const messagesResponseJSON = await messagesResponse.json()
-console.log(messagesResponseJSON)
+  console.log(messagesResponseJSON)
   response.render('person.liquid', {
     person: personDetailResponseJSON.data,
     comments: messagesResponseJSON.data,
