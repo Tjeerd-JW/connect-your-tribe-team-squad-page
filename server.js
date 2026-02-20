@@ -47,12 +47,21 @@ app.get('/', async function (request, response) {
   const season = request.query.season
   const hobby = request.query.hobby
   const vibes = request.query.vibes
+
+  const peopleParams = {
+    'fields': '*,squads.*',
+    'filter[squads][squad_id][tribe][name]': 'FDND Jaar 1',
+    'filter[squads][squad_id][cohort]': '2526',
+    'sort': 'birthdate',
+    'filter[birthdate][_gte]': `${startYear}-01-01`,
+    'filter[birthdate][_lte]': `${endYear}-12-31`,
+  }
   const year = request.query.year
 
   console.log({ hobby })
 
   console.log(vibes)
-  
+
   if (year) {
     let startYear, endYear;
     switch (year) {
@@ -64,7 +73,7 @@ app.get('/', async function (request, response) {
     // peopleParams['filter[birthdate][_gte]'] = `${startYear}-01-01`;
     // peopleParams['filter[birthdate][_lte]'] = `${endYear}-12-31`;
   }
-  
+
   if (season) {
     peopleParams['filter[fav_season][_icontains]'] = season
   }
@@ -74,15 +83,7 @@ app.get('/', async function (request, response) {
   if (vibes) {
     peopleParams['filter[vibe_emoji][_icontains]'] = vibes
   }
-  
-  const peopleParams = {
-    'fields': '*,squads.*',
-    'filter[squads][squad_id][tribe][name]': 'FDND Jaar 1',
-    'filter[squads][squad_id][cohort]': '2526',
-    'sort': 'birthdate',
-    'filter[birthdate][_gte]': `${startYear}-01-01`,
-    'filter[birthdate][_lte]': `${endYear}-12-31`,
-  }
+
   const personResponse = await fetch('https://fdnd.directus.app/items/person/?' + new URLSearchParams(peopleParams))
   const personResponseJSON = await personResponse.json()
   // loop door iedereen heen om ze hun maandindex te kunnen geven
@@ -204,7 +205,7 @@ app.get('/person/:id', async function (request, response) {
   const messagesResponse = await fetch(apiURL)
 
   const messagesResponseJSON = await messagesResponse.json()
-console.log(messagesResponseJSON)
+  console.log(messagesResponseJSON)
   response.render('person.liquid', {
     person: personDetailResponseJSON.data,
     comments: messagesResponseJSON.data,
