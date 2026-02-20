@@ -185,7 +185,7 @@ app.get('/person/:id', async function (request, response) {
   const personDetailResponse = await fetch('https://fdnd.directus.app/items/person/' + request.params.id)
   const personDetailResponseJSON = await personDetailResponse.json()
   const commentParams = {
-    'filter[for]': `Team ${teamName} ` + request.params.id,
+    'filter[for]': `Team ${teamName}` + request.params.id,
   }
 
 
@@ -215,7 +215,7 @@ app.post('/person/:id', async function (request, response) {
 
     }
   });
-  response.redirect(303, '/person/' + request.params.id)
+  response.redirect(303, `/person/${request.params.id}`)
 })
 
 
